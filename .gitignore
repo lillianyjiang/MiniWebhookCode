@@ -1,0 +1,10 @@
+# --- secrets & local config ---
+.env
+
+# --- Python cache / build ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# --- VSCode etc. (optional) ---
+.vscode/
