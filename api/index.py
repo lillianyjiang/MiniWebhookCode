@@ -14,14 +14,18 @@ from helpers import load_mappings
 from utils.load_env import load_env
 load_env()                       # silently does nothing on Vercel
 TOKEN: Final = os.environ["BOT_TOKEN"]
-BOT_USERNAME: Final = "@MiniDogStickerBot"
-STICKER_SET_NAME = "Mini3554"
-STICKERS = pathlib.Path(__file__).with_name("stickers.json")
+#BOT_USERNAME: Final = "@MiniDogStickerBot"
+#STICKER_SET_NAME = "Mini3554"
+#STICKERS = pathlib.Path(__file__).with_name("stickers.json")
 
 
 # ----- load mapping ------------------------------------------------
 emoji_to_file_ids, keyword_to_file_ids = load_mappings()
 all_keywords_readable = ", ".join(sorted(keyword_to_file_ids))  # for /seeDictionary
+
+# debugging
+print("Emoji to file ids: ", emoji_to_file_ids)
+print("Keywords to file ids", keyword_to_file_ids)
 
 # ----- FastAPI skeleton -------------------------------------------
 app = FastAPI()
@@ -107,10 +111,15 @@ def webhook(webhook_data: TelegramWebhook):
     register_handlers(dispatcher)
     dispatcher.process_update(update)
     return {"message": "ok"}
-    
+
 @app.get("/")
+def ping():
+    return {"ok": True}
 def index():
     return {"message": "MiniDogSticker webhook is alive!"}
 
 # --- Vercel entry point ---
 handler = app
+
+# would we want incoming updates to be sent to https://miniwebhookcode.vercel.app/api/index/webhook?
+# and when these updates are set to that URL, it will automatically create the dispatcher on telegram to process the data.
