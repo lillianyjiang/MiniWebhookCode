@@ -1,6 +1,6 @@
 # File: api/index.py
-from pydantic import BaseModel, List
-from typing import Final, Optional
+from pydantic import BaseModel
+from typing import List, Final, Optional
 from fastapi import FastAPI
 from telegram import Update, Bot, InlineQueryResultCachedSticker
 from telegram.ext import Dispatcher, CommandHandler, InlineQueryHandler
@@ -51,7 +51,7 @@ def help(update, context):
     context.bot.send_message(chat_id = update.effective_chat.id, text="Woof! I am mini. Please type @MiniDogStickerBot followed by keywords or emoji to find my relevant stickers to send")
 
 def seeDictionary(update, context):
-    context.bot.send_message(chat_id = update.effective_chat.id, text=f"Woof! Here are all the keywords you can call to get my stickers {keywords_to_emojis}")
+    context.bot.send_message(chat_id = update.effective_chat.id, text=f"Woof! Here are all the keywords you can call to get my stickers {all_keywords_readable}")
 
 def handle_inline_query(update, context):
     q = update.inline_query.query.strip().lower()
@@ -111,3 +111,6 @@ def webhook(webhook_data: TelegramWebhook):
 @app.get("/")
 def index():
     return {"message": "MiniDogSticker webhook is alive!"}
+
+# --- Vercel entry point ---
+handler = app
