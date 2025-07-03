@@ -7,7 +7,10 @@ import json
 import argparse, json, pathlib, sys
 
 # Load from environment variables
-TOKEN: Final = "8093326756:AAFdi_Zwk7cGVn1o6Wo43-6DM-RX-2If5YI"
+# load the token
+from utils.load_env import load_env
+load_env()                       # silently does nothing on Vercel
+TOKEN: Final = os.environ["BOT_TOKEN"]
 BOT_USERNAME: Final = "@MiniDogStickerBot"
 STICKER_SET_NAME = "Mini3554"
 
